@@ -63,8 +63,7 @@ Route::middleware(['check.subscription'])->group(function () {
     Route::get('/payments', [App\Http\Controllers\PayoutsController::class, 'index'])->name('payments');
     Route::get('/payments/create', [App\Http\Controllers\PayoutsController::class, 'create'])->name('payments.create');
     Route::get('/payments/edit/{id}', [App\Http\Controllers\PaymentController::class, 'edit'])->name('payments.edit');
-    Route::get('/earnings', [App\Http\Controllers\EarningController::class, 'index'])->name('earnings');
-    Route::get('/earnings/edit/{id}', [App\Http\Controllers\EarningController::class, 'edit'])->name('earnings.edit');
+    Route::get('/earnings', [App\Http\Controllers\EarningsController::class, 'index'])->name('earnings');
     Route::get('/coupons', [App\Http\Controllers\CouponController::class, 'index'])->name('coupons');
     Route::get('/coupons/edit/{id}', [App\Http\Controllers\CouponController::class, 'edit'])->name('coupons.edit');
     Route::get('/coupons/create', [App\Http\Controllers\CouponController::class, 'create'])->name('coupons.create');
