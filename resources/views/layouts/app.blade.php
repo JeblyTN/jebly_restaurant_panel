@@ -739,13 +739,7 @@
             database.collection('users').doc(vendorUserId).get().then(async function(usersnapshots) {
                 var userData = usersnapshots.data();
 
-                setTimeout(function(){
-                    if (!userData.hasOwnProperty('profilePictureURL') || userData.profilePictureURL === '' || userData.profilePictureURL === null || userData.profilePictureURL === "null") {
-                        $('.profile-pic').attr('src', placeholderImage);
-                    } else {
-                        $('.profile-pic').attr('src', userData.profilePictureURL);
-                    }
-                },500);
+                $('.profile-pic').attr('src', placeholderImage);
                 
                 var username = userData.firstName + ' ' + userData.lastName;
                 $('#username').text(username);
@@ -755,7 +749,10 @@
                         if (snapshots.docs.length > 0) {
                             snapshots.forEach(function(doc) {
                                 var data = doc.data();
-                                // Assuming you have retrieved a Firestore value and stored it in a variable called 'value'
+                                if (data.title) { $('#username').text(data.title); }
+                                if (data.photo && data.photo !== '' && data.photo !== null) {
+                                    $('.profile-pic').attr('src', data.photo);
+                                }
                                 if (data.createdAt instanceof firebase.firestore.Timestamp) {
                                     // 'value' is a Firestore timestamp
                                 } else if (typeof data.createdAt === 'object' && !Array.isArray(data
@@ -775,7 +772,6 @@
                         if (snapshots.docs.length > 0) {
                             snapshots.forEach(function(doc) {
                                 var data = doc.data();
-                                // Assuming you have retrieved a Firestore value and stored it in a variable called 'value'
                                 if (data.createdAt instanceof firebase.firestore.Timestamp) {
                                     // 'value' is a Firestore timestamp
                                 } else if (typeof data.createdAt === 'object' && !Array.isArray(data
@@ -795,6 +791,12 @@
                 if(userData.vendorID){
                     let vendorRef = await database.collection('vendors').doc(userData.vendorID).get();
                     let vendorData = vendorRef.data();
+                    if(vendorData.title){
+                        $('#username').text(vendorData.title);
+                    }
+                    if(vendorData.photo && vendorData.photo !== '' && vendorData.photo !== null){
+                        $('.profile-pic').attr('src', vendorData.photo);
+                    }
                     if(vendorData.latitude && vendorData.longitude){
                         let countryName = await getCountryFromLatLng(vendorData.latitude,vendorData.longitude);
                         setCookie('vendorCountryName', countryName, 365);
